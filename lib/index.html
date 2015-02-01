@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+	<head>
+		<!--
+		Copyright (c) 2015 Tyler Johnson. Licensed under MIT.
+		https://github.com/tyler-johnson/shorturl
+		-->
+
+		<meta charset="UTF-8" />
+		<title><%= $.title %> - the best url shortener</title>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		
+		<link rel="stylesheet" type="text/css" href="/_assets/bootstrap/bootstrap.css">
+
+		<style type="text/css">
+			body {
+				padding: 50px 0;
+				text-align: center;
+			}
+
+			#result {
+				margin-top: 20px;
+				min-height: 200px;
+			}
+
+			h1 {
+				margin: 20px 0;
+			}
+
+			h1 small {
+				display: block;
+				font-size: 0.5em;
+			}
+
+			#urlinput {
+				width: 400px;
+				max-width: 100%;
+			}
+
+			footer {
+				margin-top: 100px;
+				font-size: 12px;
+			}
+		</style>
+
+		<script type="text/javascript">
+			function shorten_url(e) {
+				e.preventDefault();
+
+				var form = e.target,
+					url = form.elements.url.value;
+
+				var req = new XMLHttpRequest();
+				
+				req.addEventListener("load", function() {
+					var res = req.response;
+					resel = document.getElementById("result");
+
+					var shorturl = location.origin;
+					if (shorturl[shorturl.length - 1] !== "/") shorturl += "/";
+					shorturl += res.id;
+
+					resel.innerHTML = "<i class=\"text-success\">Shortified!</i><br/><b><a href=\"" + shorturl + "\">" + shorturl + "</a></b> &rarr; <a href=\"" + res.original + "\">" + res.original + "</a><br/><small class=\"text-muted\">(Hint: right-click the link to copy it)</small>";
+
+					form.reset();
+				});
+				
+				req.open("get", "/?u=" + encodeURIComponent(url));
+				req.responseType = "json";
+				req.send();
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<h1><%= $.title %> <small>the best <b>url shortener</b> in the universe</small></h1>
+
+			<form onsubmit="shorten_url(event)" class="form-inline">
+				<input type="text" id="urlinput" name="url" class="form-control" placeholder="URL to shorten" />
+				<button type="submit" class="btn btn-success">Shorten</button>
+			</form>
+
+			<p id="result"></p>
+
+			<footer>
+				Made with &hearts; by <a href="https://github.com/tyler-johnson" class="text-success">@tyler-johnson</a>.
+			</footer>
+		</div>
+	</body>
+</html>

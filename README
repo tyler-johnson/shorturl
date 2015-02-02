@@ -1,0 +1,3 @@
+This is the source code for my URL shortener. It doesn't contain much, mostly just an Express app that connects to Redis to store URLs and hashes. I made it as an experiment to see how URL shorteners work under the hood. The source is licensed under MIT so feel free to hack away!
+
+Check out the live version: http://yuk.nu

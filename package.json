@@ -1,6 +1,6 @@
 {
 	"name": "shorturl",
-	"description": "A URL shortening HTTP server backed to Redis.",
+	"description": "A URL shortening service backed with Redis.",
 	"private": true,
 	"version": "1.0.0",
 	"author": "Tyler Johnson <tyler@tylerjohnson.me>",
@@ -8,6 +8,8 @@
 		"type": "git",
 		"url": "https://github.com/tyler-johnson/shorturl.git"
 	},
+	"license": "MIT",
+	"main": null,
 	"dependencies": {
 		"base62": "~1.0.0",
 		"bluebird": "~2.9.4",

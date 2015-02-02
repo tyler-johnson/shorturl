@@ -1,8 +1,4 @@
-// var _ = require("underscore"),
-	// Promise = require("bluebird");
-
 global.$ = global.jQuery = require("jquery");
-// require("./bootstrap.js");
 
 $(document).ready(function() {
 	var form = $("#shortform");

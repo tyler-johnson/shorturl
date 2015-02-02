@@ -1,8 +1,8 @@
-var _ = require("underscore"),
-	Promise = require("bluebird");
+// var _ = require("underscore"),
+	// Promise = require("bluebird");
 
 global.$ = global.jQuery = require("jquery");
-require("./bootstrap.js");
+// require("./bootstrap.js");
 
 $(document).ready(function() {
 	var form = $("#shortform");
@@ -10,10 +10,10 @@ $(document).ready(function() {
 	form.submit(function(e) {
 		e.preventDefault();
 
-		Promise.cast($.ajax({
+		$.ajax({
 			url: "/",
 			data: form.serializeArray()
-		})).then(function(res) {
+		}).done(function(res) {
 			var shorturl = location.origin;
 			if (shorturl[shorturl.length - 1] !== "/") shorturl += "/";
 			shorturl += res.id;

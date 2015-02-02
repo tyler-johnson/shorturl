@@ -2,7 +2,7 @@
 	"name": "shorturl",
 	"description": "A URL shortening service backed with Redis.",
 	"private": true,
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "Tyler Johnson <tyler@tylerjohnson.me>",
 	"repository": {
 		"type": "git",

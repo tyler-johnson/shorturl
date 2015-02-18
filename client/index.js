@@ -17,6 +17,11 @@ $(document).ready(function() {
 			$("#result").html("<i class=\"text-success\">Shortified!</i><br/><b><a href=\"" + shorturl + "\">" + shorturl + "</a></b> &rarr; <a href=\"" + res.original + "\">" + res.original + "</a><br/><small class=\"text-muted\">(Hint: right-click the link to copy it)</small>");
 
 			form[0].reset();
+		}).fail(function(xhr, status, err) {
+			var message = "Something terrible happened and we couldn't shorten that link! Please try again.";
+			if (xhr.status === 400) message = xhr.responseText;
+
+			$("#result").html("<i class=\"text-danger\">Oh no!</i><br/>" + message);
 		});
 	});
 });

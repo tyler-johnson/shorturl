@@ -7,6 +7,7 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		$.ajax({
+			method: "GET",
 			url: "/",
 			data: form.serializeArray()
 		}).done(function(res) {

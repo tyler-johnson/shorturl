@@ -2,7 +2,7 @@
 
 # variables
 export NODE_ENV=production
-export PORT=80
+export PORT=8000
 
 # make sure any existing instances are stopped
 ./bin/stop.sh

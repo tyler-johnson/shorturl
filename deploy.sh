@@ -10,4 +10,12 @@ then
 	exit 0
 fi
 
-echo "here"
+cat $DOKKU_PRIVATE_KEY > deploy_key.pem
+ssh-add deploy_key.pem
+git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
+cd deploy
+npm run clean
+cd ..
+$BIN/superfast pack deploy -y
+cd deploy
+git status

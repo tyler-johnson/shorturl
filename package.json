@@ -1,6 +1,14 @@
 {
   "name": "shorturl",
   "version": "2.0.0-alpha.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tyler-johnson/shorturl.git"
+  },
+  "scripts": {
+    "lint": "jshint ./",
+    "deploy": "./deploy.sh"
+  },
   "dependencies": {
     "base62": "~1.1.0",
     "bootstrap": "~4.0.0-alpha.2",
@@ -14,6 +22,8 @@
     "hiredis": "~0.4.1"
   },
   "devDependencies": {
+    "jshint": "~2.9.1",
+    "superfast": "~0.2.2",
     "superfast-sass": "~0.2.0"
   }
 }

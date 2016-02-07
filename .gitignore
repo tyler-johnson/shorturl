@@ -1,3 +1,5 @@
-node_modules/
-.pid
-blacklist.txt
+old/
+.superfast/
+.infinite
+*.txt
+config.json

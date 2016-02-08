@@ -12,7 +12,6 @@ fi
 
 # bump the version
 $BIN/semantic-release pre
-$BIN/semantic-release post
 
 # clone the existing dokku repo
 ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts
@@ -36,3 +35,7 @@ fi
 git add --all
 git commit -m "deploy #$TRAVIS_BUILD_NUMBER"
 git push origin master
+
+# clean up release
+cd ..
+$BIN/semantic-release post

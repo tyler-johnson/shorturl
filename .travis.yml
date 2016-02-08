@@ -1,6 +1,13 @@
 sudo: false
 language: node_js
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
 cache:
   directories:
     - node_modules
@@ -23,7 +30,7 @@ script: npm run $COMMAND
 
 env:
   matrix:
-  - COMMAND='deploy'
+  - CXX=g++-4.8 COMMAND='deploy'
 
 # after_success:
 #   - npm run semantic-release

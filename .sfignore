@@ -1,0 +1,5 @@
+old/
+.*
+*.txt
+*.json
+*.sh

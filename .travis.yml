@@ -1,0 +1,33 @@
+sudo: false
+language: node_js
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email: false
+
+node_js:
+  - '5'
+
+before_install:
+  # install npm@3
+  - npm i -g npm@^3.0.0
+
+before_script:
+  # lint before doing anything
+  - npm run lint
+
+script: npm run $COMMAND
+
+env:
+  matrix:
+  - COMMAND='deploy'
+
+# after_success:
+#   - npm run semantic-release
+
+branches:
+  only:
+    - "master"

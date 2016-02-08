@@ -11,7 +11,11 @@ then
 fi
 
 # bump the version
-$BIN/semantic-release pre
+if ! $BIN/semantic-release pre
+then
+	echo "No relevant changes to repo. Skipping deploy."
+	exit 0
+fi
 
 # clone the existing dokku repo
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy

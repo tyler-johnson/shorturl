@@ -4,7 +4,6 @@ var base62 = require("base62");
 
 var MAX_LENGTH = 1024; // 1KB
 
-App.log("success");
 App.set("browserKeys", [].concat(App.get("browserKeys"), "site"));
 
 // send url count to clients whenever it changes

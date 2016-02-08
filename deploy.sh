@@ -14,7 +14,6 @@ fi
 eval "$(ssh-agent -s)" # start the ssh agent
 echo "$DOKKU_PRIVATE_KEY" > deploy_key.pem
 chmod 600 deploy_key.pem
-
 expect >/dev/null 2>&1 << EOF
 	spawn ssh-add "${HOME}/.ssh/id_rsa"
 	expect "Enter passphrase"
@@ -23,6 +22,7 @@ expect >/dev/null 2>&1 << EOF
 EOF
 
 # clone the existing dokku repo
+ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
 cd deploy
 

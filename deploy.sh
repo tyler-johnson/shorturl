@@ -11,11 +11,12 @@ then
 fi
 
 # prep the access key
-echo "$DOKKU_PRIVATE_KEY" > deploy_key.pem
-chmod 600 deploy_key.pem
+echo "$DOKKU_PRIVATE_KEY" > ~/.ssh/deploy_rsa
+cat ~/.ssh/deploy_rsa 
+chmod 600 ~/.ssh/deploy_rsa
 eval "$(ssh-agent -s)" # start the ssh agent
 expect >/dev/null 2>&1 << EOF
-	spawn ssh-add deploy_key.pem
+	spawn ssh-add ~/.ssh/deploy_rsa
 	expect "Enter passphrase"
 	send "\n"
 	interact

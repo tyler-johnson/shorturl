@@ -3,28 +3,29 @@ language: node_js
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
+      - g++-4.8
 cache:
   directories:
-  - node_modules
+    - node_modules
 notifications:
   email: false
 node_js:
-- '5'
+  - '5'
 before_install:
   - npm i -g npm@^3.0.0
-  - openssl aes-256-cbc -K $encrypted_2949609850cb_key -iv $encrypted_2949609850cb_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
+  # - openssl aes-256-cbc -K $encrypted_2949609850cb_key -iv $encrypted_2949609850cb_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
   - eval "$(ssh-agent -s)"
-  - chmod 600 .travis/id_rsa
-  - ssh-add .travis/id_rsa
+  - echo "$DOKKU_PRIVATE_KEY" > deploy_key.pem
+  - chmod 600 deploy_key.pem
+  - ssh-add deploy_key.pem
 before_script:
-- npm run lint
+  - npm run lint
 script: npm run $COMMAND
 env:
   matrix:
-  - CXX=g++-4.8 COMMAND='deploy'
+    - CXX=g++-4.8 COMMAND='deploy'
 branches:
   only:
-  - master
+    - master

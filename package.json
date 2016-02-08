@@ -1,5 +1,5 @@
 {
-  "name": "shorturl",
+  "name": "@mrgalaxy/shorturl",
   "repository": {
     "type": "git",
     "url": "https://github.com/tyler-johnson/shorturl.git"

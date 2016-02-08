@@ -21,6 +21,8 @@ cd ..
 $BIN/superfast --boring pack deploy -y
 cd deploy
 
+git status
+
 # exit if there are no changes
 if git diff --quiet
 then
@@ -29,5 +31,5 @@ then
 fi
 
 git add --all
-git commit -m "continuous deploy $(date '+%Y-%m-%d %H:%M:%S')"
+git commit -m "deploy #$TRAVIS_BUILD_NUMBER"
 git push origin master

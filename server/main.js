@@ -91,7 +91,7 @@ App.router.get(/^\/([a-zA-Z0-9]+)$/, function(req, res, next) {
 	getById(req.params[0]).then(function(data) {
 		if (data == null) throw { status: 404 };
 
-		res.status(303);
+		res.status(301);
 		res.type("txt");
 		res.set("Location", data.f);
 		res.end("Redirecting you to '" + data.f + "'.");

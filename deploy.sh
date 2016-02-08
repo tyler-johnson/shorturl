@@ -14,12 +14,8 @@ fi
 echo "$DOKKU_PRIVATE_KEY" > deploy_key.pem
 chmod 600 deploy_key.pem
 eval "$(ssh-agent -s)" # start the ssh agent
-expect >/dev/null 2>&1 << EOF
-	spawn ssh-add deploy_key.pem
-	expect "Enter passphrase"
-	send "\n"
-	interact
-EOF
+ssh-add deploy_key.pem
+ssh-add -l
 
 # clone the existing dokku repo
 ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts

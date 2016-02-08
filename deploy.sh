@@ -10,6 +10,10 @@ then
 	exit 0
 fi
 
+# bump the version
+$BIN/semantic-release pre
+$BIN/semantic-release post
+
 # clone the existing dokku repo
 ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
@@ -21,8 +25,6 @@ cd ..
 $BIN/superfast --boring pack deploy -y
 cd deploy
 
-git status
-
 # exit if there are no changes
 if git diff --quiet
 then
@@ -30,6 +32,7 @@ then
 	exit 0
 fi
 
+# commit the changes and deploy
 git add --all
 git commit -m "deploy #$TRAVIS_BUILD_NUMBER"
 git push origin master

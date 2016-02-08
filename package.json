@@ -1,6 +1,5 @@
 {
   "name": "shorturl",
-  "version": "2.0.0-alpha.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/tyler-johnson/shorturl.git"
@@ -23,6 +22,7 @@
   },
   "devDependencies": {
     "jshint": "~2.9.1",
+    "semantic-release": "~4.3.5",
     "superfast": "~0.2.5",
     "superfast-sass": "~0.2.0"
   }

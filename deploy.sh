@@ -23,10 +23,8 @@ cd ..
 $BIN/superfast --boring pack deploy -y
 cd deploy
 
-cat package.json
-git status
-
 # exit if there are no changes to deploy
+git status
 if git diff --quiet
 then
 	echo "No changes to deploy to production."

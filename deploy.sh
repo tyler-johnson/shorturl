@@ -12,7 +12,6 @@ fi
 
 # bump the version
 $BIN/semantic-release pre
-cat package.json
 
 # clone the existing dokku repo
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
@@ -25,6 +24,7 @@ $BIN/superfast --boring pack deploy -y
 cd deploy
 
 cat package.json
+git status
 
 # exit if there are no changes to deploy
 if git diff --quiet

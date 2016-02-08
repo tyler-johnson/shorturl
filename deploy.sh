@@ -15,7 +15,6 @@ $BIN/semantic-release pre
 cat package.json
 
 # clone the existing dokku repo
-ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
 cd deploy
 
@@ -25,15 +24,19 @@ cd ..
 $BIN/superfast --boring pack deploy -y
 cd deploy
 
-# commit the changes and deploy
-if ! git diff --quiet
+cat package.json
+
+# exit if there are no changes to deploy
+if git diff --quiet
 then
-	git add --all
-	git commit -m "deploy #$TRAVIS_BUILD_NUMBER"
-	git push origin master
-else
 	echo "No changes to deploy to production."
+	exit 0
 fi
+
+# commit the changes and deploy
+git add --all
+git commit -m "deploy #$TRAVIS_BUILD_NUMBER"
+git push origin master
 
 # publish to NPM and clean up release
 cd ..

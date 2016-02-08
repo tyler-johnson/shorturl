@@ -3,3 +3,4 @@ old/
 .infinite
 *.txt
 config.json
+.travis/id_rsa

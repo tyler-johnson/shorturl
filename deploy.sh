@@ -12,6 +12,7 @@ fi
 
 # bump the version
 $BIN/semantic-release pre
+cat package.json
 
 # clone the existing dokku repo
 ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts

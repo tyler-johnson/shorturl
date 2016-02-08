@@ -10,19 +10,6 @@ then
 	exit 0
 fi
 
-# prep the access key
-# echo "$DOKKU_PRIVATE_KEY" > ~/.ssh/deploy_rsa
-# cat ~/.ssh/deploy_rsa
-# chmod 600 .travis/id_rsa
-# eval "$(ssh-agent -s)" # start the ssh agent
-# expect >/dev/null 2>&1 << EOF
-# 	spawn ssh-add .travis/id_rsa
-# 	expect "Enter passphrase"
-# 	send "\n"
-# 	interact
-# EOF
-ssh-add -l
-
 # clone the existing dokku repo
 ssh-keyscan -t rsa $DOKKU_HOST >> ~/.ssh/known_hosts
 git clone dokku@$DOKKU_HOST:$DOKKU_APPNAME deploy
@@ -41,4 +28,6 @@ then
 	exit 0
 fi
 
-git status
+git add --all
+git commit -m "continuous deploy $(date '+%Y-%m-%d %H:%M:%S')"
+git push origin master

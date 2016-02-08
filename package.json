@@ -5,8 +5,7 @@
     "url": "https://github.com/tyler-johnson/shorturl.git"
   },
   "scripts": {
-    "lint": "jshint ./",
-    "deploy": "./deploy.sh"
+    "lint": "jshint ./"
   },
   "dependencies": {
     "base62": "~1.1.0",

@@ -24,10 +24,10 @@ before_install:
   - npm i -g npm@^3.0.0
 before_script:
   - npm run lint
-script: npm run $COMMAND
+script: .travis/deploy.sh
 env:
   matrix:
-    - CXX=g++-4.8 COMMAND='deploy'
+    - CXX=g++-4.8
 branches:
   only:
   - master

@@ -1,16 +1,12 @@
 <script>
-/* globals Temple, Template */
-var request = require("superagent");
-
-var result = new Temple.Map();
-Temple.helpers({ result: result });
+/* globals Temple, Template, APPDATA */
 </script>
 
 <template name="body" use="actions">
 	<div class="container">
 		<h1>{{ title }} <small>the best <b>url shortener</b> in the universe</small></h1>
 
-		<form class="shortform form-inline" on-submit="shorten">
+		<form class="shortform form-inline" on-submit={"shorten",result}>
 			<input type="text" name="url" class="urlinput form-control" placeholder="URL to shorten" autofocus />
 			<button type="submit" class="btn btn-success">Shorten</button>
 		</form>
@@ -32,39 +28,49 @@ Temple.helpers({ result: result });
 		</p>
 
 		<footer>
-			~{{ urlCount.get() }} urls shortened
-			<br/>
-			Made with &hearts; and too much caffeine by <a href="https://github.com/tyler-johnson" class="text-success">@tyler-johnson</a>.
-			<br/>
-			License MIT. <a href="https://github.com/tyler-johnson/shorturl" class="text-success">Source on Github</a>. v{{ version }}
-			<br/><br/>
-			Have a short URL that needs to be removed?
-			<br/>
-			Send the URL and a reason for removal to <a href="mailto:tyler@tylerjohnson.me" class="text-success">tyler@tylerjohnson.me</a>.
+			<div>~{{ urlCount }} urls shortened</div>
+			<div>Made with &hearts; and too much caffeine by <a href="https://github.com/tyler-johnson" class="text-success">@tyler-johnson</a>.</div>
+			<div>License MIT. <a href="https://github.com/tyler-johnson/shorturl" class="text-success">Source on Github</a>. v{{ version }}</div>
+			<div>&nbsp;</div>
+			<div>Have a short URL that needs to be removed?</div>
+			<div>Send the URL and a reason for removal to <a href="mailto:tyler@tylerjohnson.me" class="text-success">tyler@tylerjohnson.me</a>.</div>
 		</footer>
 	</div>
 </template>
 
 <script>
-Template.body.actions("shorten", function(e) {
+Template.body.actions("shorten", function(e, result) {
 	e.original.preventDefault();
 	var input = e.target.querySelector("input");
 	result.clear().set("loading", true);
 
-	request.get("/").query({ url: input.value }).end(function(err, res) {
+	var req = new XMLHttpRequest();
+
+	req.addEventListener("load", function() {
 		result.clear();
 
-		if (err) {
+		if (req.status >= 400) {
 			var message;
-			if (err.status === 400) message = err.response.text;
+			if (req.status === 400) message = req.responseText;
 			else message = "Something terrible happened and we couldn't shorten that link! Please try again.";
 			result.set("error", true);
 			result.set("message", message);
 		} else {
-			result.set(res.body).set("ok", true);
+			result.set(req.response).set("ok", true);
 			input.value = "";
 			input.focus();
 		}
 	});
+
+	req.open("GET", "/?url=" + encodeURIComponent(input.value));
+	req.responseType = "json";
+	req.send();
+});
+
+Temple.paint("body", document.body, {
+	title: APPDATA.title || location.host || APPDATA.name,
+	version: APPDATA.version || "edge",
+	urlCount: APPDATA.urlcount || 0,
+	result: new Temple.Map()
 });
 </script>

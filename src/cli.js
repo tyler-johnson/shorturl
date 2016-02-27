@@ -1,16 +1,19 @@
 import minimist from "minimist";
-import {pick,defaults} from "lodash";
+import {merge} from "lodash";
 import {readFileSync} from "fs";
+import config from "cloud-env";
 
 // using standard require so rollup doesn't include it
 const createApp = require("./");
 
 let argv = minimist(process.argv.slice(2), {
-	string: [ "config" ],
-	boolean: [ "help", "version", "production" ],
+	string: [ "config", "title", "host", "port" ],
+	boolean: [ "help", "version", "production", "compress" ],
 	alias: {
 		h: "help", H: "help",
-		v: "version", V: "version"
+		v: "version", V: "version",
+		x: "compress",
+		t: "title"
 	}
 });
 
@@ -26,21 +29,22 @@ if (argv.version) {
 }
 
 if (argv.config) {
-	defaults(argv, JSON.parse(readFileSync(argv.config, "utf8")));
+	merge(argv, JSON.parse(readFileSync(argv.config, "utf8")));
 }
 
 process.env.NODE_ENV = argv.production ? "production" : (process.env.NODE_ENV || "development");
 
-const app = createApp(pick(argv, [
-	"redis"
-]));
+const app = createApp(argv);
 
-const server = app.listen(argv.port || 3000, "127.0.0.1", () => {
-	const addr = server.address();
-	console.log("HTTP server listening at http://%s:%s", addr.address, addr.port);
-});
-
-server.on("error", function(e) {
+app.listen(
+	argv.port || config.PORT || 3000,
+	argv.host || config.HOST || "127.0.0.1",
+	function() {
+		const addr = this.address();
+		console.log("Short URL service%s listening at http://%s:%s", argv.title ? ` '${argv.title}'` : "", addr.address, addr.port);
+		console.log("Enter Ctrl-C to stop the server.");
+	}
+).on("error", function(e) {
 	console.error(e.stack || e);
 	process.exit(1);
 });

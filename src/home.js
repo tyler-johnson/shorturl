@@ -33,25 +33,32 @@ function html(opts={}) {
 </html>`;
 }
 
-var router = new Router();
-export default router;
+export default function(tpl_opts) {
+	var router = new Router();
 
-router.get("/", async function(req, res, next) {
-	try {
-		res.send(html({
-			title: (req.get("host") || pkg.name) + " - the best url shortener",
-			scripts: "main.js",
-			styles: "main.css",
-			appdata: {
-				urlcount: await count(req.app.db),
-				...pick(pkg, "name", "version")
-			}
-		}));
-	} catch(e) {
-		next(e);
-	}
-});
+	router.get("/", async function(req, res, next) {
+		try {
+			let title = (req.get("host") || pkg.name);
 
-router.get("/main.(js|css)", function(req, res) {
-	res.sendFile(__dirname + "/dist/client." + req.params[0]);
-});
+			res.send(html({
+				title: title + " - the best url shortener",
+				scripts: "main.js",
+				styles: "main.css",
+				appdata: {
+					title,
+					urlcount: await count(req.app.db),
+					...pick(pkg, "name", "version"),
+					...tpl_opts
+				}
+			}));
+		} catch(e) {
+			next(e);
+		}
+	});
+
+	router.get("/main.(js|css)", function(req, res) {
+		res.sendFile(__dirname + "/dist/client." + req.params[0]);
+	});
+
+	return router;
+}

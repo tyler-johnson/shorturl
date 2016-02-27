@@ -10,7 +10,7 @@ import compression from "compression";
 promisifyAll(redis.RedisClient.prototype);
 promisifyAll(redis.Multi.prototype);
 
-export default function createApp({redis:redis_opts,compress=true}) {
+export default function createApp({ redis:redis_opts, compress=true, title, enableHome=true }) {
 	let app = express();
 
 	if (redis_opts instanceof redis.RedisClient) {
@@ -25,7 +25,7 @@ export default function createApp({redis:redis_opts,compress=true}) {
 
 	app.get("/", api);
 	app.get(/^\/([a-zA-Z0-9]+)$/, redirect);
-	app.use(home);
+	if (enableHome) app.use(home({title}));
 	app.use(error);
 
 	return app;

@@ -68,7 +68,7 @@ Template.body.actions("shorten", function(e, result) {
 });
 
 Temple.paint("body", document.body, {
-	title: location.host || APPDATA.name,
+	title: APPDATA.title || location.host || APPDATA.name,
 	version: APPDATA.version || "edge",
 	urlCount: APPDATA.urlcount || 0,
 	result: new Temple.Map()

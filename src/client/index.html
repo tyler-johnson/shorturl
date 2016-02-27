@@ -1,9 +1,9 @@
 <script>
 /* globals Temple, Template */
-var request = require("superagent");
+import request from "superagent";
 
 var result = new Temple.Map();
-Temple.helpers({ result: result });
+Temple.helpers({ result });
 </script>
 
 <template name="body" use="actions">
@@ -66,5 +66,11 @@ Template.body.actions("shorten", function(e) {
 			input.focus();
 		}
 	});
+});
+
+Temple.paint("body", document.body, {
+	title: App.get("site.title") || location.host || App.get("name"),
+	version: App.get("version"),
+	urlCount: urlCount
 });
 </script>

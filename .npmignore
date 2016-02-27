@@ -1,4 +1,3 @@
 .*
-*.sh
-*.txt
-config.json
+Makefile
+rollup.config.js

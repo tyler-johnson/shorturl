@@ -1,6 +1,5 @@
-old/
-.superfast/
-.infinite
-*.txt
-config.json
-.travis/id_rsa
+/node_modules
+/index.js
+/cli.js
+/client.js
+/client.css

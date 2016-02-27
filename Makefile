@@ -20,6 +20,6 @@ dist/client.css: src/client/index.scss dist
 	$(BIN)/node-sass --importer build/sass-module-importer.js $< | $(BIN)/postcss --use autoprefixer --autoprefixer.browsers "ie >= 8,> 1%" | $(BIN)/cleancss > $@
 
 clean:
-	rm index.js cli.js dist/client.js dist/client.css
+	rm -rf index.js cli.js dist/
 
 .PHONY: build

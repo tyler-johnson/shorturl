@@ -41,6 +41,10 @@ export async function getById(db, id) {
 	return JSON.parse(data);
 }
 
+export async function count(db) {
+	return await db.getAsync("url_count");
+}
+
 export function cleanURL(fullurl) {
 	if (typeof fullurl !== "string" ||
 		!fullurl.length || fullurl.length > MAX_LENGTH) return false;

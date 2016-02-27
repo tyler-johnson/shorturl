@@ -3,6 +3,7 @@
 		"external-helpers",
 		"transform-async-to-generator",
 	    "transform-es2015-parameters",
-		"transform-es2015-destructuring"
+		"transform-es2015-destructuring",
+	    "transform-object-rest-spread"
 	]
 }

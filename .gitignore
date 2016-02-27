@@ -1,5 +1,4 @@
 /node_modules
 /index.js
 /cli.js
-/client.js
-/client.css
+/dist

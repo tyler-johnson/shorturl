@@ -34,18 +34,11 @@ if (argv.config) {
 
 process.env.NODE_ENV = argv.production ? "production" : (process.env.NODE_ENV || "development");
 
-if (!argv.redis) {
-	argv.redis = {
-		host: process.env.DB_PORT_6379_TCP_ADDR,
-		port: process.env.DB_PORT_6379_TCP_PORT
-	};
-}
-
 const app = createApp(argv);
 
 app.listen(
 	argv.port || config.PORT || 8080,
-	argv.host || config.HOST || "0.0.0.0",
+	argv.host || config.HOST || "127.0.0.1",
 	function() {
 		const addr = this.address();
 		console.log("Short URL service%s listening at http://%s:%s", argv.title ? ` '${argv.title}'` : "", addr.address, addr.port);

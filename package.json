@@ -41,7 +41,9 @@
     "clean-css": "^3.4.9",
     "eslint": "^2.2.0",
     "eslint-plugin-html": "^1.4.0",
+    "node-sass": "^3.4.2",
     "postcss-cli": "^2.5.1",
+    "resolve": "^1.1.7",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",
@@ -49,8 +51,7 @@
     "semantic-release": "^4.3.5",
     "tape": "^4.4.0",
     "templejs": "^1.0.0-alpha.1",
-    "uglify-js": "^2.6.2",
-    "node-sass": "^3.4.2"
+    "uglify-js": "^2.6.2"
   },
   "optionalDependencies": {
     "hiredis": "^0.4.1"

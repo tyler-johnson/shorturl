@@ -1,5 +1,5 @@
 import minimist from "minimist";
-import {merge} from "lodash";
+import {merge,repeat} from "lodash";
 import {readFileSync} from "fs";
 import config from "cloud-env";
 
@@ -8,17 +8,29 @@ const createApp = require("./");
 
 let argv = minimist(process.argv.slice(2), {
 	string: [ "title", "host", "port" ],
-	boolean: [ "help", "version" ],
+	boolean: [ "help", "version", "home" ],
 	alias: {
 		h: "help", H: "help",
 		v: "version", V: "version",
 		c: "config",
-		t: "title"
+		t: "title",
+		"enableHome": "home",
+		p: "port"
 	}
 });
 
 if (argv.help) {
-	console.log("halp plz");
+	console.log(`
+$ shorturl-server [OPTIONS]
+
+	-c, --config <file>   Set options via a JSON config file, relative to PWD.
+	-t, --title <title>   Set the title of server, displayed on the homepage
+	-p, --port <port>     The HTTP server port.
+	--no-home             Disable the HTML website part of the server.
+	--redis <url>         A Redis server connection string.
+	-h, --help            Shows this message.
+	-v, --version         Prints the name and version of this software.
+`.replace(/^\t+/gm, (m) => repeat("  ", m.length)));
 	process.exit(0);
 }
 

@@ -7,11 +7,12 @@ import config from "cloud-env";
 const createApp = require("./");
 
 let argv = minimist(process.argv.slice(2), {
-	string: [ "config", "title", "host", "port" ],
+	string: [ "title", "host", "port" ],
 	boolean: [ "help", "version" ],
 	alias: {
 		h: "help", H: "help",
 		v: "version", V: "version",
+		c: "config",
 		t: "title"
 	}
 });
@@ -28,7 +29,10 @@ if (argv.version) {
 }
 
 if (argv.config) {
-	merge(argv, JSON.parse(readFileSync(argv.config, "utf8")));
+	let src;
+	try { src = readFileSync(typeof argv.config === "boolean" ? "shorturl.config.json" : argv.config, "utf8"); }
+	catch(e) { e; }
+	if (src) merge(argv, JSON.parse(src));
 }
 
 const app = createApp(argv);

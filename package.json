@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint src/* test/*",
     "build": "make clean && make",
-    "start": "node cli.js --production",
+    "start": "node cli.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {

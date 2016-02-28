@@ -8,11 +8,10 @@ const createApp = require("./");
 
 let argv = minimist(process.argv.slice(2), {
 	string: [ "config", "title", "host", "port" ],
-	boolean: [ "help", "version", "production", "compress" ],
+	boolean: [ "help", "version" ],
 	alias: {
 		h: "help", H: "help",
 		v: "version", V: "version",
-		x: "compress",
 		t: "title"
 	}
 });
@@ -31,8 +30,6 @@ if (argv.version) {
 if (argv.config) {
 	merge(argv, JSON.parse(readFileSync(argv.config, "utf8")));
 }
-
-process.env.NODE_ENV = argv.production ? "production" : (process.env.NODE_ENV || "development");
 
 const app = createApp(argv);
 

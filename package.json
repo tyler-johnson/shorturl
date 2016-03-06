@@ -14,7 +14,7 @@
     "lint": "eslint src/* test/*",
     "build": "make clean && make",
     "start": "node cli.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "autorelease": "autorelease pre && npm publish && autorelease post"
   },
   "dependencies": {
     "base62": "^1.1.0",
@@ -30,6 +30,9 @@
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.3.3",
+    "autorelease": "^1.5.1",
+    "autorelease-github": "^1.1.1",
+    "autorelease-travis": "^1.2.0",
     "babel-eslint": "^5.0.0",
     "babel-plugin-external-helpers": "^6.5.0",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
@@ -48,7 +51,6 @@
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",
     "rollup-plugin-node-resolve": "^1.4.0",
-    "semantic-release": "^4.3.5",
     "tape": "^4.4.0",
     "templejs": "^1.0.0-alpha.1",
     "uglify-js": "^2.6.2"

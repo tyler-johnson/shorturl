@@ -42,7 +42,7 @@
     "bootstrap": "^4.0.0-alpha.2",
     "browserify": "^13.0.0",
     "clean-css": "^3.4.9",
-    "eslint": "^2.2.0",
+    "eslint": "~2.2.0",
     "eslint-plugin-html": "^1.4.0",
     "node-sass": "^3.4.2",
     "postcss-cli": "^2.5.1",

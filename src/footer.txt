@@ -1,0 +1,4 @@
+<div>Made with &hearts; and too much caffeine by <a href="https://github.com/tyler-johnson" class="text-success">@tyler-johnson</a>.</div>
+<div>&nbsp;</div>
+<div>Have a short URL that needs to be removed?</div>
+<div>Send the URL and a reason for removal to <a href="mailto:tyler@tylerjohnson.me" class="text-success">tyler@tylerjohnson.me</a>.</div>

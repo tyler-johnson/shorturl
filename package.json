@@ -1,5 +1,6 @@
 {
   "name": "@mrgalaxy/shorturl",
+  "version": "0.0.0-edge",
   "description": "A URL shortening service powered by Node.js and Redis.",
   "author": "Tyler Johnson <tyler@tylerjohnson.me>",
   "repository": {
@@ -11,51 +12,53 @@
     "shorturl-server": "cli.js"
   },
   "scripts": {
-    "lint": "eslint src/* test/*",
-    "build": "make clean && make",
-    "start": "node cli.js",
+    "lint": "eslint src/ test/",
+    "clean": "shx rm -rf cli.js index.js styles.css",
+    "build-deploy": "node .deploy/build",
+    "deploy": "npm run build-deploy && kubectl apply -f kubernetes.yml",
+    "build-lib": "rollup src/index.js -c > index.js",
+    "build-cli": "shx echo \"#!/usr/bin/env node\" > cli.js && rollup src/cli.js -c >> cli.js && shx chmod +x cli.js",
+    "build-styles": "node-sass --importer build/sass-module-importer.js src/styles.scss | cssnano > styles.css",
+    "build": "npm-run-all clean build-lib build-cli build-styles",
+    "prepublish": "npm run build",
     "autorelease": "autorelease pre && npm publish && autorelease post"
   },
   "dependencies": {
     "base62": "^1.1.0",
-    "cloud-env": "^0.2.1",
-    "compression": "^1.6.1",
-    "es6-promisify-all": "^0.1.0",
+    "es6-promisify": "^5.0.0",
     "express": "^4.13.4",
-    "lodash": "4.x",
     "minimist": "^1.2.0",
+    "rc": "^1.2.1",
     "redis": "^2.4.2"
   },
-  "keywords": [],
-  "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^6.3.3",
     "autorelease": "^1.5.1",
     "autorelease-github": "^1.1.1",
     "autorelease-travis": "^1.2.0",
-    "babel-eslint": "^5.0.0",
-    "babel-plugin-external-helpers": "^6.5.0",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.5.0",
-    "babel-plugin-transform-es2015-parameters": "^6.5.0",
     "babel-plugin-transform-object-rest-spread": "^6.5.0",
-    "bootstrap": "^4.0.0-alpha.2",
-    "browserify": "^13.0.0",
-    "clean-css": "^3.4.9",
-    "eslint": "~2.2.0",
-    "eslint-plugin-html": "^1.4.0",
-    "node-sass": "^3.4.2",
-    "postcss-cli": "^2.5.1",
+    "bootstrap": "^4.0.0-alpha.6",
+    "cssnano-cli": "^1.0.5",
+    "eslint": "~3.19.0",
+    "node-sass": "^4.5.2",
+    "npm-run-all": "^4.0.2",
     "resolve": "^1.1.7",
-    "rollup": "^0.25.4",
+    "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.4.0",
-    "rollup-plugin-commonjs": "^2.2.1",
-    "rollup-plugin-node-resolve": "^1.4.0",
-    "tape": "^4.4.0",
-    "templejs": "^1.0.0-alpha.1",
-    "uglify-js": "^2.6.2"
+    "rollup-plugin-json": "^2.1.1",
+    "rollup-plugin-jst": "^1.0.1",
+    "rollup-plugin-string": "^2.0.2",
+    "shx": "^0.2.2"
   },
   "optionalDependencies": {
-    "hiredis": "^0.4.1"
-  }
+    "hiredis": "^0.5.0"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "cli.js",
+    "styles.css"
+  ]
 }

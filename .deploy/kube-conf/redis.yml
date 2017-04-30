@@ -1,0 +1,61 @@
+<%
+const version = ($.versions && $.versions.redis) || "latest";
+%>
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: <%= $.namespace %>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: redis
+        app: shorturl
+    spec:
+      containers:
+      # CouchDB
+      - image: redis:<%= version %>
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: tcp
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: redis-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: <%= $.namespace %>
+  labels:
+    name: redis
+spec:
+  type: NodePort
+  ports:
+    - name: tcp
+      port: 6379
+      targetPort: tcp
+  selector:
+    name: redis
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-storage
+  namespace: <%= $.namespace %>
+  annotations:
+    volume.beta.kubernetes.io/storage-class: fast
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

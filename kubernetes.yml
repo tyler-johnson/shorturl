@@ -1,0 +1,127 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: shorturl
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: shorturl
+  namespace: shorturl
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: shorturl
+        app: shorturl
+    spec:
+      containers:
+      - image: mrgalaxy/shorturl:latest
+        name: shorturl
+        imagePullPolicy: IfNotPresent
+        args:
+        - "--redis.host=redis"
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shorturl
+  namespace: shorturl
+  labels:
+    name: shorturl
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  selector:
+    name: shorturl
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: shorturl
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - secretName: shorturl-ssl
+    hosts:
+    - gce.yuk.nu
+  rules:
+  - host: gce.yuk.nu
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: shorturl
+          servicePort: http
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: shorturl
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: redis
+        app: shorturl
+    spec:
+      containers:
+      # CouchDB
+      - image: redis:latest
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: tcp
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: redis-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: shorturl
+  labels:
+    name: redis
+spec:
+  type: NodePort
+  ports:
+    - name: tcp
+      port: 6379
+      targetPort: tcp
+  selector:
+    name: redis
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-storage
+  namespace: shorturl
+  annotations:
+    volume.beta.kubernetes.io/storage-class: fast
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

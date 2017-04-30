@@ -41,6 +41,8 @@
     "bootstrap": "^4.0.0-alpha.6",
     "cssnano-cli": "^1.0.5",
     "eslint": "~3.19.0",
+    "js-yaml": "^3.8.3",
+    "lodash": "^4.17.4",
     "node-sass": "^4.5.2",
     "npm-run-all": "^4.0.2",
     "resolve": "^1.1.7",

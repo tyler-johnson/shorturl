@@ -1,0 +1,8 @@
+<% if (!$.namespace) {
+  throw new Error("Missing namespace.");
+} %>
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: <%= $.namespace %>

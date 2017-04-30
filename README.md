@@ -14,10 +14,10 @@ Install globally using NPM.
 npm i @mrgalaxy/shorturl -g
 ```
 
-Check that installed correctly by getting the version.
+Check that the tool was installed correctly.
 
 ```bash
-shorturl-server --version
+shorturl-server --help
 ```
 
 ### Usage

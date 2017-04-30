@@ -1,10 +1,10 @@
-import {Router} from "express";
+import {Router,static as serveStatic} from "express";
 import {count} from "./shorten";
 import hometpl from "./home.html";
 import {name,version} from "../package.json";
 import footer from "./footer.txt";
 
-export default function(data) {
+export default function({ public:publicDir, ...data }) {
   var router = new Router();
 
   router.get("/", async function(req, res, next) {
@@ -22,6 +22,10 @@ export default function(data) {
       next(e);
     }
   });
+
+  if (publicDir) {
+    router.use(serveStatic(publicDir));
+  }
 
   router.get("/main.css", function(req, res) {
     res.sendFile(__dirname + "/styles.css");

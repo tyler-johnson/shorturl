@@ -22,10 +22,11 @@ if (argv.help) {
 
 Options
   -c, --config <file>   Set options via a JSON config file, relative to PWD.
-  -t, --title <title>   Set the title of server, displayed on the homepage
   -p, --port <port>     The HTTP server port.
-  --no-home             Disable the HTML website part of the server.
   --redis <url>         A Redis server connection string.
+  --no-home             Disable the HTML website part of the server.
+  -t, --title <title>   Set the title of server, displayed on the homepage
+  --public <dir>        A path to a folder with static files to serve.
   -h, --help            Shows this message.
   -v, --version         Prints the name and version of this software.`);
   process.exit(0);

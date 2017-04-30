@@ -36,7 +36,7 @@ if (argv.version) {
   process.exit(0);
 }
 
-const conf = rc("tjme", {}, argv);
+const conf = rc("shorturl", {}, argv);
 
 if (conf.production) {
   process.env.NODE_ENV = "production";

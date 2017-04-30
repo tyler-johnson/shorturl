@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= $.title || "" %></title>
+    <% [].concat($.styles).filter(Boolean).forEach(function(s) { %>
+    <link rel="stylesheet" href="<%= s %>" type="text/css" /><% }); %>
+  </head>
+  <body>
+    <div class="container">
+      <h1><%= $.title || "" %> <small>the best <b>url shortener</b> in the universe</small></h1>
+
+      <form id="theform" class="shortform form-inline justify-content-center">
+        <input type="text" name="url" class="urlinput form-control" placeholder="URL to shorten" autofocus />
+        <button type="submit" class="btn btn-success ml-2">Shorten</button>
+      </form>
+
+      <p class="result" id="theresult"></p>
+
+      <footer>
+        <div class="urlcount">~<span id="urlcount"><%= $.urlcount %></span> urls shortened</div>
+        <%= $.footer %>
+        <div class="license">License MIT. <a href="https://github.com/tyler-johnson/shorturl" class="text-success">Source on Github</a>. v<%= $.version %></div>
+      </footer>
+    </div>
+    <% [].concat($.scripts).filter(Boolean).forEach(function(s) { %>
+    <script type="text/javascript" src="${s}"></script><% }) %>
+
+    <script type="text/javascript">
+      var form = document.getElementById("theform");
+      var result = document.getElementById("theresult");
+      var urlcount = document.getElementById("urlcount");
+      var defaultError = "Something terrible happened and we couldn't shorten that link! Please try again.";
+
+      function errorResult(message) {
+        result.innerHTML = "<i class=\"text-danger\">Oh no!</i><br/>" + message;
+      }
+
+      function updateCount(count) {
+        urlcount.innerHTML = typeof count === "string" ? count : "?";
+      }
+
+      function successResult(res) {
+        updateCount(res.count);
+        result.innerHTML = "<i class=\"text-success\">Shortified!</i><br/>" +
+          "<b><a href=\""+ res.shorturl + "\">"+ res.shorturl + "</a></b> &rarr; " +
+          "<a href=\""+ res.original + "\">"+ res.original + "</a><br/>" +
+          "<small class=\"text-muted\">(Hint: right-click the link to copy it)</small>";
+      }
+
+      function loadingResult(res) {
+        result.innerHTML = "<div class=\"spinner\"><div class=\"dot1\"></div><div class=\"dot2\"></div></div>";
+      }
+
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        loadingResult();
+
+        var input = form.elements.url;
+
+        fetch("/?url=" + encodeURIComponent(input.value)).then(function(res) {
+          if (!res.ok) return errorResult(defaultError);
+
+          return res.json().then(function(data) {
+            if (data.ok) {
+              successResult(data);
+              input.value = "";
+              input.focus();
+            } else if (data.error) {
+              errorResult(data.message);
+            } else {
+              errorResult(defaultError);
+            }
+          });
+        }).catch(function(e) {
+          console.error(e);
+          errorResult(defaultError);
+        });
+      });
+
+      setInterval(function() {
+        fetch("/?count").then(function(res) {
+          if (res.ok) return res.json();
+        }).then(function(data) {
+          updateCount(data.count);
+        });
+      }, 30 * 1000);
+    </script>
+  </body>
+</html>

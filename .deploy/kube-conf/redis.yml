@@ -16,9 +16,10 @@ spec:
         app: shorturl
     spec:
       containers:
-      # CouchDB
+      # Redis
       - image: redis:<%= version %>
         name: redis
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379
           name: tcp

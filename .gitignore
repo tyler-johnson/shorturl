@@ -3,3 +3,4 @@
 /cli.js
 /styles.css
 deploy-config.yml
+/kubernetes.*
